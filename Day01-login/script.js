@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var userInput = document.getElementById('username') ;
         var passInput = document.getElementById('password') ;
 
+        if (userInput.value.trim() === '' || passInput.value.trim() === '') {
+        alert('请输入用户名和密码');
+        return;
+        }
+
         if (userInput.value === p1.username && passInput.value  === p1.password) {
             alert('成功');
         } else {
