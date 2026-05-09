@@ -20,15 +20,18 @@ export default function App() {
   }
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-          <h2>账号密码登录</h2>
-          <label>用户名:</label>
-          <input type="text" className="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
-          <label>密码:</label>
-          <input type="password" className="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-          <input type="submit" value="登录"/>
-        </form>
+    <div>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleLogin}>
+            <h2>账号密码登录</h2>
+            <label>用户名:</label>
+            <input type="text" className="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
+            <label>密码:</label>
+            <input type="password" className="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <input type="submit" value="登录"/>
+          </form>
+      </div>
     </div>
+    
   )
 }
