@@ -1,14 +1,14 @@
-var p1 = { username: "admin" , password: "123456" };
+let p1 = { username: "admin" , password: "123456" };
 
 document.addEventListener('DOMContentLoaded', function () {
-    var form = document.querySelector('form');
+    let form = document.querySelector('form');
     if (!form) return;
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        var userInput = document.getElementById('username') ;
-        var passInput = document.getElementById('password') ;
+        let userInput = document.getElementById('username') ;
+        let passInput = document.getElementById('password') ;
 
         if (userInput.value.trim() === '' || passInput.value.trim() === '') {
         alert('请输入用户名和密码');
