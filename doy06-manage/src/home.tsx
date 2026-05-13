@@ -1,7 +1,7 @@
 import { useState } from 'react'
 // 引入布局外壳、两个子页面
 import MainLayout from './layouts/MainLayout'
-import Welcome from './pages/home/welcome'
+import Welcome from './pages/home/Welcome'
 import UserList from './pages/user/UserList'
 
 export default function Home() {
