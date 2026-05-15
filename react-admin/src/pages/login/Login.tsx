@@ -39,8 +39,11 @@ export default function Login() {
             setPassword('');
             navigate('/home');
         }
-    } catch (error: any) {
-        message.error('登录失败，请稍后再试', error);
+    } catch(error: any) {
+        //console.log('完整错误对象：', error);
+        //console.log('response.data：', error?.response?.data);
+        const errMsg = error?.response?.data?.message || '用户名或密码错误';
+        message.error(errMsg);
     } finally {
         setLoading(false);
     }
