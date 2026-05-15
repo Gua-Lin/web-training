@@ -6,40 +6,47 @@ const request = axios.create({
     timeout: 5000,
 });
 
-request.interceptors.request.use(
-    config => {
-        const token = localStorage.getItem('token');
-        if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {        
-        return Promise.reject(error);
-    }
-);
-
+// 请求拦截器：自动添加 Authorization 头
+// 响应拦截器：统一处理 401/403/404/500
 request.interceptors.response.use(
-    response => {
-        return response.data;
-    },
-    error => {
-        // ==============================================
-        // 登录接口报错 401 不跳转、不刷新！
-        // ==============================================
-        const isLoginApi = error.config.url === '/login';
+  response => {
+    return response.data;
+  },
+  error => {
+    const { response } = error;
+    const isLoginApi = error.config?.url === '/login';
 
-        // 如果是登录接口报错，不跳登录！
-        if (error.response?.status === 401 && !isLoginApi) {
-            localStorage.removeItem('token');
-            window.location.href = '/login';
-            message.error('登录状态已过期，请重新登录');
+    // 网络超时/无响应
+    if (!response) {
+      message.error('网络异常或服务器超时，请稍后重试');
+      return Promise.reject(error);
+    }
+
+    // 状态码 switch 统一处理
+    switch (response.status) {
+      case 401:
+        // 登录接口401不跳转
+        if (!isLoginApi) {
+          localStorage.removeItem('token');
+          window.location.href = '/login';
+          message.error('登录状态已过期，请重新登录');
         }
+        break;
+      case 403:
+        message.error('暂无权限访问');
+        break;
+      case 404:
+        message.error('请求接口不存在');
+        break;
+      case 500:
+        message.error('服务器内部错误');
+        break;
+      default:
+        message.error('请求失败，请稍后重试');
+    }
 
-        // 所有错误都抛给页面自己提示，不拦截
-        return Promise.reject(error);
-
-        }
+    return Promise.reject(error);
+  }
 );
 
 // 使用更精确的类型定义,不这么写会导致调用时无法正确推断类型
